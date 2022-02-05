@@ -18,10 +18,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analysePerformance": "npm run build && echo $(ls -hlS build/static/js | grep \".js$\") >> DEV_LOG.md && echo \">>>>>>>>\n\n TODO: find library to measure performance (total size of scripts in build folder, memory and cpu consumption, ...) \n\n<<<<<<<<\""
   },
   "eslintConfig": {
     "extends": [
