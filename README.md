@@ -1,6 +1,6 @@
 # maribor-transit-frontend
 
-Ionic (React) mobile app.
+TypeScript, React, RxJS frontend for the Maribor Transit app.
 
 ## Development
 
