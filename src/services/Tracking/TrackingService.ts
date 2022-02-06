@@ -5,6 +5,7 @@ interface Event {
   event: KeyboardEvent | MouseEvent;
 }
 
+// TODO: convert to object, see SearchService, do it like there: get rid of using 'react' in this file
 export class TrackingService {
   private _events$ = new Subject<Event>();
 

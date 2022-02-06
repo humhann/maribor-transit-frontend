@@ -1,61 +1,31 @@
-import { createContext } from 'react';
 import { from, Subject, tap } from 'rxjs';
+import { SearchResults, SearchParams } from './SearchService.d';
 
-interface Coordinates {
-  latitude: number;
-  longitude: number;
-}
+const remoteSearch = ({ searchTerm }: SearchParams): Promise<Response> => {
+  return fetch('https://maribor-transit-backend.ihumhann.workers.dev/realtime');
+};
 
-export interface Station {
-  id: number;
-  name: string;
-  coordinates: Coordinates;
-  distance: number;
-}
+const data$ = new Subject<SearchResults>();
+const reset$ = new Subject<void>();
 
-export interface SearchResults {
-  // searchTerm: string;
-  resultsTotalCount: number;
-  stations: Station[];
-}
+const search = ({ searchTerm }: SearchParams): void => {
+  // TODO: there's probably a rxjs method for this, use that instead
+  if (!searchTerm) {
+    return;
+  }
 
-interface SearchParams {
-  searchTerm: string;
-}
+  from(remoteSearch({ searchTerm }))
+    .pipe(
+      tap({
+        next: async (response) => data$.next(await response.json()),
+        error: (error) => data$.error(error),
+      })
+    )
+    .subscribe();
+};
 
-export class SearchService {
-  private _data$ = new Subject<SearchResults>();
-  private _reset$ = new Subject<void>();
-
-  public data$ = this._data$.asObservable();
-  public reset$ = this._reset$.asObservable();
-
-  public search = ({ searchTerm }: SearchParams): void => {
-    // TODO: there's probably a rxjs method for this, use that instead
-    if (!searchTerm) {
-      return;
-    }
-
-    from(this._remoteSearch({ searchTerm }))
-      .pipe(
-        tap({
-          next: async (response) => this._data$.next(await response.json()),
-          error: (error) => this._data$.error(error),
-        })
-      )
-      .subscribe();
-  };
-
-  public reset = (): void => {
-    this._reset$.next();
-  };
-
-  // private _remoteSearch = ({ searchTerm }: SearchParams): Promise<any> => {
-  private _remoteSearch = ({ searchTerm }: SearchParams): Promise<Response> => {
-    return fetch(
-      'https://maribor-transit-backend.ihumhann.workers.dev/realtime'
-    );
-  };
-}
-
-export const SearchServiceContext = createContext(new SearchService());
+export const SearchService = {
+  data$,
+  reset$,
+  search,
+};
