@@ -3,6 +3,7 @@ import { tap, Observable } from 'rxjs';
 
 // TODO: Idea from https://observable-hooks.js.org/api/#useobservablestate, use that instead if it makes sense
 
+// TODO: use better type than any, typescript generics?
 export const useObservableState = (
   input$: Observable<any>,
   initialState: any
