@@ -22,6 +22,7 @@ To get basic performance information on the production build, run `npm run analy
 
 - TODOs in code (search for `TODO:`)
 - consider using [Observable Hooks](https://observable-hooks.js.org) library
+- use Lighthouse report during development/on build
 
 ## License
 
