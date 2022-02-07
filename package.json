@@ -2,6 +2,9 @@
   "name": "maribor-transit-frontend",
   "version": "0.1.0",
   "private": true,
+  "description": "TypeScript, React, RxJS frontend for the Maribor Transit app.",
+  "author": "Gregor Hann <ihumhann@gmail.com>",
+  "license": "GPL-3.0",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
